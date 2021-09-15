@@ -39,10 +39,11 @@ public class StaticValue {
 
     //初始化方法
     public static void init() {
-        try {
+
             //加载背景图片
+        try {
             bg = ImageIO.read(new File(path + "bg.png"));
-            bg2 = ImageIO.read(new File(path + "bg2.png"));
+        bg2 = ImageIO.read(new File(path + "bg2.png"));
             //加载马里奥向左站立
             stand_L = ImageIO.read(new File(path + "s_mario_stand_L.png"));
             //加载马里奥向右站立
@@ -54,11 +55,12 @@ public class StaticValue {
             //加载马里奥向左跳跃
             jump_L = ImageIO.read(new File(path+"s_mario_jump1_L.png"));
             //加载马里奥向右跳跃
-            jump_R = ImageIO.read(new File(path+"s_mario_jump1_R.png"));
 
+            jump_R = ImageIO.read(new File(path+"s_mario_jump1_R.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
 
         //加载马里奥向左跑
