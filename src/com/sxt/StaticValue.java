@@ -40,10 +40,10 @@ public class StaticValue {
     //初始化方法
     public static void init() {
 
-            //加载背景图片
         try {
+            //加载背景图片
             bg = ImageIO.read(new File(path + "bg.png"));
-        bg2 = ImageIO.read(new File(path + "bg2.png"));
+            bg2 = ImageIO.read(new File(path + "bg2.png"));
             //加载马里奥向左站立
             stand_L = ImageIO.read(new File(path + "s_mario_stand_L.png"));
             //加载马里奥向右站立
@@ -66,15 +66,15 @@ public class StaticValue {
         //加载马里奥向左跑
         for (int i = 1; i <= 2; i++) {
             try {
-                run_L.add(ImageIO.read(new File(path+"s_mario_run"+i+"L.png")));
+                run_L.add(ImageIO.read(new File(path +"s_mario_run"+i+"_L.png")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        //加载马里奥向右跑
+            //加载马里奥向右跑
         for (int i = 1; i <= 2; i++) {
             try {
-                run_R.add(ImageIO.read(new File(path+"s_mario_run"+i+"R.png")));
+                run_R.add(ImageIO.read(new File(path+"s_mario_run"+i+"_R.png")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -118,7 +118,7 @@ public class StaticValue {
         //加载食人花敌人
         for (int i = 1; i <= 2; i++) {
             try {
-                flower.add(ImageIO.read(new File(path+"flower1"+i+".png")));
+                flower.add(ImageIO.read(new File(path+"flower1."+i+".png")));
             } catch (IOException e) {
                 e.printStackTrace();
             }

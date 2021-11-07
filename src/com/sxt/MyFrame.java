@@ -1,10 +1,25 @@
 package com.sxt;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MyFrame extends JFrame implements KeyListener {
+public class MyFrame extends JFrame implements KeyListener,Runnable {
+    //用于存储所有的背景
+    private List<BackGround> allBg = new ArrayList<>();
+    //用于存储当前的背景
+    private BackGround nowBg = new BackGround();
+    //用于双缓存
+    private Image offScreenImage = null;
+    //马里奥对象
+    private Mario mario = new Mario();
+    //定义一个线程对象，用于实现马里奥的运动
+    private Thread thread = new Thread(this);
+
+
     public MyFrame(){
         //设置窗口的大小为800*600
         this.setSize(800,600);
@@ -22,6 +37,49 @@ public class MyFrame extends JFrame implements KeyListener {
         this.setTitle("我的超级玛丽");
         //初始化图片
         StaticValue.init();
+        //初始化马里奥
+        mario = new Mario(10,395);
+        //创建全部的场景
+        for(int i = 1;i<=3;i++){
+            allBg.add(new BackGround(i,i==3?true:false));
+        }
+        //将第一个场景设置为当前场景
+        nowBg = allBg.get(0);
+        mario.setBackGround(nowBg);
+        //绘制图像
+        repaint();
+        thread.start();//启动线程
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        if(offScreenImage == null){
+            offScreenImage = createImage(800,600);
+        }
+
+        Graphics graphics = offScreenImage.getGraphics();
+        graphics.fillRect(0,0,800,600);
+
+        //绘制背景
+        graphics.drawImage(nowBg.getBgImage(), 0,0,this);
+
+        //绘制障碍物
+        for(Obstacle ob:nowBg.getObstacleList()){
+            graphics.drawImage(ob.getShow(),ob.getX(),ob.getY(),this);
+        }
+
+        //绘制城堡
+        graphics.drawImage(nowBg.getTower(),620,270,this);
+        //绘制旗杆
+        graphics.drawImage(nowBg.getGan(),500,220,this);
+
+        //绘制马里奥
+        graphics.drawImage(mario.getShow(),mario.getX(), mario.getY(),this );
+
+        //将缓冲区的图片绘制到窗口中
+        g.drawImage(offScreenImage,0,0,this);
+
+
     }
 
     public static void main(String[] args) {
@@ -40,15 +98,49 @@ public class MyFrame extends JFrame implements KeyListener {
     public void keyTyped(KeyEvent e) {
 
     }
-
+    //当键盘按下按键时调用
     @Override
     public void keyPressed(KeyEvent e) {
+        //向右移动
+    if(e.getKeyCode()==39){
+        mario.rightMove();
+    }
+        //向左移动
+        if(e.getKeyCode()==37){
+            mario.leftMove();
+        }
+    }
 
+    //当键盘松开按键时调用
+    @Override
+    public void keyReleased(KeyEvent e) {
+        //向左停止
+        if(e.getKeyCode()==37){
+            mario.leftStop();
+        }
+        //向右停止
+        if(e.getKeyCode()==39){
+            mario.rightStop();
+        }
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void run() {
+        while(true){
+            repaint();//用于重新绘制我们的图像
+            try {
+                Thread.sleep(50);
 
+                if(mario.getX()>=775){
+                    nowBg = allBg.get(nowBg.getSort());
+                    mario.setBackGround(nowBg);
+                    mario.setX(10);
+                    mario.setY(395);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
 
