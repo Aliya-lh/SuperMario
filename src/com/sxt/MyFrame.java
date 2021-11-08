@@ -80,6 +80,7 @@ public class MyFrame extends JFrame implements KeyListener,Runnable {
         g.drawImage(offScreenImage,0,0,this);
 
 
+
     }
 
     public static void main(String[] args) {
