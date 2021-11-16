@@ -95,6 +95,7 @@ public class MyFrame extends JFrame implements KeyListener,Runnable {
 
 
 
+
     @Override
     public void keyTyped(KeyEvent e) {
 
